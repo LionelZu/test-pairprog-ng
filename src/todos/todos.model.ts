@@ -6,3 +6,8 @@ export class Todo {
     public done = false
   ) {}
 }
+
+export interface TodoCreator {
+  content: string;
+  category: string;
+}

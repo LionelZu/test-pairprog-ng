@@ -1,13 +1,24 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Todo } from '../todos.model';
+import { MatDialog } from '@angular/material/dialog';
+import { of } from 'rxjs';
+import { TodosAddItemComponent } from '../todos-add-item/todos-add-item.component';
+import { Todo, TodoCreator } from '../todos.model';
 import { TodosService } from '../todos.service';
 
 @Component({
   selector: 'app-todos-list',
   template: ` <div class="actions">
-      <mat-slide-toggle [(ngModel)]="viewDone"
-        >Voir les tâches terminées</mat-slide-toggle
+      <mat-slide-toggle [(ngModel)]="viewDone">
+        Voir les tâches terminées
+      </mat-slide-toggle>
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Ajout d'une todo"
+        (click)="addItem()"
       >
+        <mat-icon>add</mat-icon>
+      </button>
     </div>
     <mat-selection-list>
       <mat-list-option
@@ -27,6 +38,7 @@ import { TodosService } from '../todos.service';
       .actions {
         display: flex;
         justify-content: flex-end;
+        align-items: center;
         gap: 16px;
         margin: 16px;
       }
@@ -35,12 +47,30 @@ import { TodosService } from '../todos.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodosListComponent {
-  constructor(private todosService: TodosService) {}
+  constructor(public dialog: MatDialog, private todosService: TodosService) {}
 
   viewDone: boolean = false;
 
   get todo$() {
     return this.todosService.getTodos(this.viewDone);
+  }
+
+  addItem() {
+    const dialogRef = this.dialog.open(TodosAddItemComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe((result: TodoCreator) => {
+      this.saveNewTodo(result);
+    });
+  }
+
+  saveNewTodo(todo: TodoCreator) {
+    if (!todo) {
+      return;
+    }
+
+    this.todosService.push(todo);
   }
 
   trackById(index: number, todo: Todo) {

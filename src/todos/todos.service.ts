@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { UidGeneratorService } from 'src/core/uid-generator.service';
-import { Todo } from './todos.model';
+import { Todo, TodoCreator } from './todos.model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,5 +34,12 @@ export class TodosService {
     return this.todo$
       .asObservable()
       .pipe(map((todos) => (viewDone ? todos : todos.filter((t) => !t.done))));
+  }
+
+  public push(todo: TodoCreator) {
+    this.todo$.next([
+      ...this.todo$.value,
+      new Todo(this.uuidGenerator.uuid(), todo.content, todo.category),
+    ]);
   }
 }
