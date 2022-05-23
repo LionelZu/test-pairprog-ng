@@ -1,25 +1,23 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ShareModule } from 'src/share/share.module';
 
 import { TodosSidebarComponent } from './todos-sidebar.component';
 
 describe('TodosSidebarComponent', () => {
-  let component: TodosSidebarComponent;
-  let fixture: ComponentFixture<TodosSidebarComponent>;
+  let spectator: Spectator<TodosSidebarComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ TodosSidebarComponent ]
-    })
-    .compileComponents();
+  const createComponent = createComponentFactory({
+    component: TodosSidebarComponent,
+    imports: [ShareModule],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TodosSidebarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    spectator.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
   });
 });

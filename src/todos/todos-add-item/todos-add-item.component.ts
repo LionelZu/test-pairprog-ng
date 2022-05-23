@@ -9,7 +9,7 @@ type TodoCreatorForm = {
 @Component({
   selector: 'app-todos-add-item',
   template: `
-    <form (submit)="ok()">
+    <form (submit)="ok(); $event.preventDefault()">
       <h1 mat-dialog-title>Ajout d'une todo</h1>
       <div mat-dialog-content [formGroup]="addItemForm">
         <mat-form-field>
@@ -22,8 +22,12 @@ type TodoCreatorForm = {
         </mat-form-field>
       </div>
       <div mat-dialog-actions align="end">
-        <button mat-button (click)="cancel()">Annuler</button>
-        <button mat-flat-button color="primary" type="submit">Ajouter</button>
+        <button data-test-cancel mat-button (click)="cancel()" type="button">
+          Annuler
+        </button>
+        <button data-test-add mat-flat-button color="primary" type="submit">
+          Ajouter
+        </button>
       </div>
     </form>
   `,

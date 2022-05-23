@@ -1,25 +1,32 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ShareModule } from 'src/share/share.module';
+import { TodoProgress } from '../todos.model';
 
 import { TodosProgressionsComponent } from './todos-progressions.component';
 
 describe('TodosProgressionsComponent', () => {
-  let component: TodosProgressionsComponent;
-  let fixture: ComponentFixture<TodosProgressionsComponent>;
+  let spectator: Spectator<TodosProgressionsComponent>;
+  const progress: TodoProgress = { total: 10, done: 3 };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ TodosProgressionsComponent ]
-    })
-    .compileComponents();
+  const createComponent = createComponentFactory({
+    component: TodosProgressionsComponent,
+    imports: [ShareModule],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TodosProgressionsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    spectator.setInput('progress', progress);
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(spectator.component).toBeTruthy();
+  });
+
+  it('should compute progress', () => {
+    expect(spectator.query('mat-progress-bar')).toHaveAttribute(
+      'ng-reflect-value',
+      '30'
+    );
   });
 });

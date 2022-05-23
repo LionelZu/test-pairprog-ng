@@ -4,7 +4,7 @@ import { Todo } from '../todos.model';
 @Component({
   selector: 'app-todos-list-item',
   template: `
-    <div>{{ todo?.content }}</div>
+    <div data-test-content>{{ todo?.content }}</div>
     <mat-chip-list>
       <mat-chip color="primary" selected>{{ todo?.category }}</mat-chip>
     </mat-chip-list>

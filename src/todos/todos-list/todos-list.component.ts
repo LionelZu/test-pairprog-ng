@@ -8,13 +8,14 @@ import { TodosService } from '../todos.service';
 @Component({
   selector: 'app-todos-list',
   template: ` <div class="actions">
-      <mat-slide-toggle [(ngModel)]="viewDone">
+      <mat-slide-toggle [(ngModel)]="viewDone" data-test-viewDone>
         Voir les tâches terminées
       </mat-slide-toggle>
       <button
         mat-mini-fab
         color="primary"
         aria-label="Ajout d'une todo"
+        data-test-add
         (click)="addItem()"
       >
         <mat-icon>add</mat-icon>
@@ -25,7 +26,10 @@ import { TodosService } from '../todos.service';
         *ngFor="let todo of todo$ | async; trackBy: trackById"
         [(selected)]="todo.done"
       >
-        <app-todos-list-item [todo]="todo"></app-todos-list-item>
+        <app-todos-list-item
+          [attr.data-test-todo]="todo.id"
+          [todo]="todo"
+        ></app-todos-list-item>
       </mat-list-option>
     </mat-selection-list>`,
   styles: [
