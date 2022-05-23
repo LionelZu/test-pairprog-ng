@@ -44,8 +44,8 @@ export class TodosAddItemComponent {
     private formBuilder: FormBuilder
   ) {
     this.addItemForm = this.formBuilder.group({
-      content: ['', [Validators.required]],
-      category: ['', [Validators.required]],
+      content: '',
+      category: '',
     } as TodoCreatorForm);
   }
 
@@ -54,10 +54,6 @@ export class TodosAddItemComponent {
   }
 
   ok(): void {
-    if (this.addItemForm.valid) {
-      this.dialogRef.close({
-        ...this.addItemForm.value,
-      });
-    }
+    // TODO
   }
 }

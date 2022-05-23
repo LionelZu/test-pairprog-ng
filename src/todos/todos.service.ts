@@ -45,11 +45,4 @@ export class TodosService {
       })
     );
   }
-
-  public push(todo: TodoCreator) {
-    this.todo$.next([
-      ...this.todo$.value,
-      new Todo(this.uuidGenerator.uuid(), todo.content, todo.category),
-    ]);
-  }
 }

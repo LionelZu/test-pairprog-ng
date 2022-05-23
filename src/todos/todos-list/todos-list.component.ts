@@ -60,17 +60,9 @@ export class TodosListComponent {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe((result: TodoCreator) => {
-      this.saveNewTodo(result);
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('create popup is close');
     });
-  }
-
-  saveNewTodo(todo: TodoCreator) {
-    if (!todo) {
-      return;
-    }
-
-    this.todosService.push(todo);
   }
 
   trackById(index: number, todo: Todo) {
