@@ -6,7 +6,14 @@ import { Component } from '@angular/core';
     <mat-toolbar color="primary">
       <span class="title">{{ title }}</span>
     </mat-toolbar>
-    <app-todos-list></app-todos-list>
+    <mat-drawer-container>
+      <mat-drawer-content>
+        <app-todos-list></app-todos-list>
+      </mat-drawer-content>
+      <mat-drawer mode="side" position="end" opened>
+        <app-todos-sidebar></app-todos-sidebar>
+      </mat-drawer>
+    </mat-drawer-container>
   `,
   styles: [
     `
@@ -16,6 +23,15 @@ import { Component } from '@angular/core';
         overflow: auto;
         display: flex;
         flex-direction: column;
+      }
+
+      mat-drawer-container {
+        flex: 1 1 100%;
+      }
+
+      mat-drawer {
+        width: 20%;
+        min-width: 300px;
       }
     `,
   ],

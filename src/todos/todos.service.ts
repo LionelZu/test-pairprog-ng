@@ -36,6 +36,16 @@ export class TodosService {
       .pipe(map((todos) => (viewDone ? todos : todos.filter((t) => !t.done))));
   }
 
+  public getProgress(): Observable<{ total: number; done: number }> {
+    return this.todo$.asObservable().pipe(
+      map((todos) => {
+        const total = todos.length;
+        const done = todos.filter((t) => t.done).length;
+        return { total, done };
+      })
+    );
+  }
+
   public push(todo: TodoCreator) {
     this.todo$.next([
       ...this.todo$.value,

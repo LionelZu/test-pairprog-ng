@@ -11,3 +11,8 @@ export interface TodoCreator {
   content: string;
   category: string;
 }
+
+export interface TodoProgress {
+  total: number;
+  done: number;
+}
