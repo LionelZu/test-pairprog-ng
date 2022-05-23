@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { ShareModule } from 'src/share/share.module';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [ShareModule],
       declarations: [AppComponent],
     }).compileComponents();
   });
@@ -25,7 +27,7 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('.title')?.textContent).toContain(
-      'angular-todos app is running!'
+      'angular-todos'
     );
   });
 });

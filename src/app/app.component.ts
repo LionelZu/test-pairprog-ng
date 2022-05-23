@@ -3,13 +3,19 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <h3 class="title">{{ title }} app is running!</h3>
-    <p>Hello world</p>
+    <mat-toolbar color="primary">
+      <span class="title">{{ title }}</span>
+    </mat-toolbar>
+    <app-todos-list></app-todos-list>
   `,
   styles: [
     `
       :host {
-        display: block;
+        height: 100%;
+        max-height: 100%;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
       }
     `,
   ],
