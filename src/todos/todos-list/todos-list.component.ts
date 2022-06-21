@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { of } from 'rxjs';
 import { TodosAddItemComponent } from '../todos-add-item/todos-add-item.component';
-import { Todo, TodoCreator } from '../todos.model';
+import { Todo } from '../todos.model';
 import { TodosService } from '../todos.service';
 
 @Component({
@@ -11,15 +10,6 @@ import { TodosService } from '../todos.service';
       <mat-slide-toggle [(ngModel)]="viewDone" data-test-viewDone>
         Voir les tâches terminées
       </mat-slide-toggle>
-      <button
-        mat-mini-fab
-        color="primary"
-        aria-label="Ajout d'une todo"
-        data-test-add
-        (click)="addItem()"
-      >
-        <mat-icon>add</mat-icon>
-      </button>
     </div>
     <mat-selection-list>
       <mat-list-option
