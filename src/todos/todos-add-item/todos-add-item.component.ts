@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TodoCreator } from '../todos.model';
 
@@ -58,6 +58,6 @@ export class TodosAddItemComponent {
   }
 
   ok(): void {
-    // TODO
+    this.dialogRef.close(this.addItemForm.value);
   }
 }

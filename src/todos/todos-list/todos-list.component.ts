@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { of } from 'rxjs';
 import { TodosAddItemComponent } from '../todos-add-item/todos-add-item.component';
 import { Todo, TodoCreator } from '../todos.model';
 import { TodosService } from '../todos.service';
@@ -24,7 +23,8 @@ import { TodosService } from '../todos.service';
     <mat-selection-list>
       <mat-list-option
         *ngFor="let todo of todo$ | async; trackBy: trackById"
-        [(selected)]="todo.done"
+        [selected]="todo.done"
+        (selectedChange)="updateTodo(todo, $event)"
       >
         <app-todos-list-item
           [attr.data-test-todo]="todo.id"
@@ -64,9 +64,16 @@ export class TodosListComponent {
       width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe(() => {
-      console.log('create popup is close');
+    dialogRef.afterClosed().subscribe((data: TodoCreator) => {
+      if (data) {
+        this.todosService.addTodo(data);
+      }
     });
+  }
+
+  updateTodo(todo: Todo, selected: any) {
+    todo.done = selected;
+    this.todosService.updateTodo(todo);
   }
 
   trackById(index: number, todo: Todo) {
