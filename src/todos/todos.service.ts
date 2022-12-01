@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { HttpTodosService } from './http-todos.service';
 import { LocalTodosService } from './local-todos.service';
 import { Todo, TodoCreator } from './todos.model';
 
@@ -7,7 +8,10 @@ import { Todo, TodoCreator } from './todos.model';
   providedIn: 'root',
 })
 export class TodosService {
-  constructor(private local: LocalTodosService) {}
+  constructor(
+    private local: LocalTodosService,
+    private http: HttpTodosService
+  ) {}
 
   get service() {
     return this.local;

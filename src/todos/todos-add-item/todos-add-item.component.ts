@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { StoreService } from 'src/store/store.service';
 import { TodoCreator } from '../todos.model';
 
 type TodoCreatorForm = {
@@ -45,7 +46,8 @@ export class TodosAddItemComponent {
 
   constructor(
     public dialogRef: MatDialogRef<TodosAddItemComponent>,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private store: StoreService
   ) {
     this.addItemForm = this.formBuilder.group({
       content: '',
@@ -58,6 +60,10 @@ export class TodosAddItemComponent {
   }
 
   ok(): void {
-    this.dialogRef.close(this.addItemForm.value);
+    this.store.dispatch({
+      type: 'Ajout todos',
+      payload: this.addItemForm.value,
+    });
+    this.dialogRef.close();
   }
 }

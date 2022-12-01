@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { StoreService } from 'src/store/store.service';
 import { TodosAddItemComponent } from '../todos-add-item/todos-add-item.component';
 import { Todo, TodoCreator } from '../todos.model';
 import { TodosService } from '../todos.service';
@@ -51,12 +52,16 @@ import { TodosService } from '../todos.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodosListComponent {
-  constructor(public dialog: MatDialog, private todosService: TodosService) {}
+  constructor(
+    public dialog: MatDialog,
+    private store: StoreService,
+    private todosService: TodosService
+  ) {}
 
   viewDone: boolean = false;
 
   get todo$() {
-    return this.todosService.getTodos(this.viewDone);
+    return this.store.select((state) => state.todos);
   }
 
   addItem() {
@@ -66,7 +71,6 @@ export class TodosListComponent {
 
     dialogRef.afterClosed().subscribe((data: TodoCreator) => {
       if (data) {
-        this.todosService.addTodo(data);
       }
     });
   }
