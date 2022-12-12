@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { of } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { Observable, tap } from 'rxjs';
 import { TodosAddItemComponent } from '../todos-add-item/todos-add-item.component';
+import { NewTodo } from '../todos-store/todo.action';
+import { TodoState } from '../todos-store/todo.state';
 import { Todo, TodoCreator } from '../todos.model';
 import { TodosService } from '../todos.service';
 
@@ -22,7 +25,7 @@ import { TodosService } from '../todos.service';
     </div>
     <mat-selection-list>
       <mat-list-option
-        *ngFor="let todo of todo$ | async; trackBy: trackById"
+        *ngFor="let todo of stateTodos$ | async; trackBy: trackById"
         [(selected)]="todo.done"
       >
         <app-todos-list-item [todo]="todo"></app-todos-list-item>
@@ -47,13 +50,16 @@ import { TodosService } from '../todos.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodosListComponent {
-  constructor(public dialog: MatDialog, private todosService: TodosService) {}
+  constructor(
+    public dialog: MatDialog,
+    private todosService: TodosService,
+    private store: Store
+  ) {}
 
   viewDone: boolean = false;
 
-  get todo$() {
-    return this.todosService.getTodos(this.viewDone);
-  }
+  @Select(TodoState.getTodoList)
+  stateTodos$?: Observable<Todo[]>;
 
   addItem() {
     const dialogRef = this.dialog.open(TodosAddItemComponent, {
@@ -70,7 +76,11 @@ export class TodosListComponent {
       return;
     }
 
-    this.todosService.push(todo);
+    const action = new NewTodo(todo);
+    this.store
+      .dispatch(action)
+      .pipe(tap(() => console.log('success')))
+      .subscribe();
   }
 
   trackById(index: number, todo: Todo) {
