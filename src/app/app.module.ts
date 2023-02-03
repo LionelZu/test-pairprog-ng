@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 
-import { AppComponent } from './app.component';
+import { CoreModule } from 'src/core/core.module';
 import { ShareModule } from 'src/share/share.module';
 import { TodosModule } from 'src/todos/todos.module';
-import { CoreModule } from 'src/core/core.module';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [AppComponent],

@@ -31,7 +31,9 @@ import { TodosService } from '../todos.service';
           [todo]="todo"
         ></app-todos-list-item>
       </mat-list-option>
-    </mat-selection-list>`,
+    </mat-selection-list>
+
+    <app-todos-form></app-todos-form>`,
   styles: [
     `
       :host {
